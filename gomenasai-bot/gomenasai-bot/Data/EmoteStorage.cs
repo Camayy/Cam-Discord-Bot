@@ -27,12 +27,20 @@ namespace gomenasai_bot.Data
             emoteCount = JsonConvert.DeserializeObject<Dictionary<string, int>>(json);
         }
 
+        /// <summary>
+        /// saves the data to the json file
+        /// </summary>
         public static void SaveData()
         {
             string json = JsonConvert.SerializeObject(emoteCount, Formatting.Indented);
             File.WriteAllText("EmoteStorage.json", json);
         }
 
+        /// <summary>
+        /// Creates json file if it doesnt exists/Gets the file if it does
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         private static bool GetOrCreateJson(string file)
         {
             if (!File.Exists(file))
@@ -44,6 +52,11 @@ namespace gomenasai_bot.Data
             return true;
         }
 
+        /// <summary>
+        /// Checks if the dictionary contains the key provided
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static bool ContainsKey(string key)
         {
             if (emoteCount.ContainsKey(key))
@@ -56,11 +69,21 @@ namespace gomenasai_bot.Data
             }
         }
 
+        /// <summary>
+        /// gets the amount of items in the dictionary
+        /// </summary>
+        /// <returns></returns>
         public static int GetDictionaryCount()
         {
             return emoteCount.Count;
         }
 
+        /// <summary>
+        /// Adds a item to the dictionary
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static bool AddToDictionary(string key, int value)
         {
             int count = GetDictionaryCount();
@@ -73,11 +96,20 @@ namespace gomenasai_bot.Data
             return false;
         }
 
+        /// <summary>
+        /// Gets the value for the key provided
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public static int GetKeyCount(string key)
         {
             return emoteCount[key];
         }
 
+        /// <summary>
+        /// Updates the value in the dictionary for the key provided
+        /// </summary>
+        /// <param name="key"></param>
         public static void UpdateDictionary(string key)
         {
             int i = emoteCount[key];

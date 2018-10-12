@@ -11,9 +11,9 @@ using Discord.Commands;
 
 namespace gomenasai_bot.Commands
 {
-    public class Chief_Command : ModuleBase<SocketCommandContext>
+    internal class Chief_Command : ModuleBase<SocketCommandContext>
     {
-        [Command("isthatit"), Alias("chief", "itaintit", "nigger"), Summary("That aint it chief")]
+        [Command("isthatit"), Alias("chief", "itaintit"), Summary("That aint it chief")]
         public async Task ThatAintIt()
         {
             Random rand = new Random();
