@@ -11,7 +11,7 @@ using Discord.Commands;
 
 namespace gomenasai_bot.Commands
 {
-    internal class Chief_Command : ModuleBase<SocketCommandContext>
+    public class Chief_Command : ModuleBase<SocketCommandContext>
     {
         [Command("isthatit"), Alias("chief", "itaintit"), Summary("That aint it chief")]
         public async Task ThatAintIt()

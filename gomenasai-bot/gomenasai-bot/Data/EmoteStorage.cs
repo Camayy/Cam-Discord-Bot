@@ -114,6 +114,8 @@ namespace gomenasai_bot.Data
         {
             int i = emoteCount[key];
             emoteCount[key] = i + 1;
+            SaveData();
+            Console.WriteLine("Added 1 count using:" + key);
         }
     }
 }

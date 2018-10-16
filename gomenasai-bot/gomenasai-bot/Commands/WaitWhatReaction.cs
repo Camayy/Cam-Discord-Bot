@@ -13,11 +13,11 @@ using Discord.Commands;
 
 namespace gomenasai_bot.Commands
 {
-    internal class WaitWhatReaction : ModuleBase<SocketCommandContext>
+    public class WaitWhatReaction : ModuleBase<SocketCommandContext>
     {
         private static readonly DiscordSocketClient _client = Bot._client;
 
-        public static async Task WaitWhatAli(SocketUserMessage msg)
+        public static async Task WaitWhatReactionForPerson(SocketUserMessage msg)
         {
             var context = new SocketCommandContext(_client, msg);
             var guild = context.Guild;

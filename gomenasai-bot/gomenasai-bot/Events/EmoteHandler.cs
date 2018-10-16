@@ -12,30 +12,50 @@ using Discord.Commands;
 
 namespace gomenasai_bot.Events
 {
-    class EmoteHandler
+    public static class EmoteHandler
     {
 
         private static readonly DiscordSocketClient _client = Bot._client;
 
-        public static async Task GetEmoteFromMessage(SocketUserMessage msg)
+        public static  void GetEmoteFromMessage(SocketUserMessage msg)
+        {
+            Task.Run(() => ManipulateUserMessage(msg));
+        }
+
+        private static async Task ManipulateUserMessage(SocketUserMessage msg)
         {
             var context = new SocketCommandContext(_client, msg);
             var guild = context.Guild;
-            IEmote emote = guild.Emotes.First(e => e.Name == "waitwhat");
-
-            if (Data.EmoteStorage.GetDictionaryCount() != guild.Emotes.Count)
+            foreach (IEmote emobe in guild.Emotes)
             {
-                //context.Message.Content ==
-                //ADD THE NEW EMOTES -- do it with ID
-                //Data.ReactionStorage.emoteCount.Add(new KeyValuePair<string, int>(EMOTENAME, 0));
-                //ADD REACTION COUNT WITH_client.ReactionAdded += _client_ReactionAdded;
-                Data.EmoteStorage.AddToDictionary("KEY OF THE NEW EMOTE", 1);
+                if (msg.Content.Contains(emobe.Name))
+                {
+                    if (Data.EmoteStorage.ContainsKey(emobe.ToString()))
+                    {
+                        Data.EmoteStorage.UpdateDictionary(emobe.ToString());
+                        break;
+                    }
+                }
             }
-            //GET THE EMOTE AND PASS IT IN HERE
-            if (Data.EmoteStorage.ContainsKey("KEY"))
-            {
-                Data.EmoteStorage.UpdateDictionary("lol");
-            }
+            await context.Channel.SendMessageAsync("");
+            //You'd be better off moving Emote stuff into another method and Task.Run it
         }
+
+        //cant await the emote if message was not a emote
+        // await context.Message.AddReactionAsync(emote); //THIS IS NOT AWAITING PROPERLY CHECK CMD FOR ERROR
+
+        //handle if reaction already exists
+        ///https://docs.stillu.cc/api/Discord.WebSocket.SocketReaction.html?q=socketreaction
+        //handle none server emotes :smiling_imp:
+
+        /*if (Data.EmoteStorage.GetDictionaryCount() != guild.Emotes.Count)
+                    {
+                        //context.Message.Content ==
+                        //ADD THE NEW EMOTES -- do it with ID
+                        //Data.ReactionStorage.emoteCount.Add(new KeyValuePair<string, int>(EMOTENAME, 0));
+                        //ADD REACTION COUNT WITH_client.ReactionAdded += _client_ReactionAdded;
+                        Data.EmoteStorage.AddToDictionary(emobe.ToString(), 1);
+                    }*/
+
     }
 }

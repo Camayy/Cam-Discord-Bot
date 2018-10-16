@@ -23,9 +23,10 @@ namespace gomenasai_bot.Core
             
             _client = client;
             _commands = new CommandService();
+            _client.MessageReceived += MessageSent;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());//move this to top?
 
-            _client.MessageReceived += MessageSent;
+            
             _client.Log += Utils.ConsoleLogging.ClientResponse;
         }
 
@@ -36,9 +37,11 @@ namespace gomenasai_bot.Core
             var msg = message as SocketUserMessage;
             var context = new SocketCommandContext(_client, msg);
 
-            await Events.EmoteHandler.GetEmoteFromMessage(msg);
-            await Commands.WaitWhatReaction.WaitWhatAli(msg);
+            //need to add await in the method to run asynchronously
 
+            await Commands.WaitWhatReaction.WaitWhatReactionForPerson(msg);
+            //await Events.EmoteHandler.GetEmoteFromMessage(msg);
+            Events.EmoteHandler.GetEmoteFromMessage(msg);
 
             if (context.Message == null || context.Message.Content == "")
             {
@@ -61,6 +64,8 @@ namespace gomenasai_bot.Core
             {
                 Console.WriteLine(DateTime.Now + " Commands - Something went wrong with the commands: " + context.Message.Content + " Error reason: " + userMessage.ErrorReason);
             }
+
+           
         }
     }
 }
