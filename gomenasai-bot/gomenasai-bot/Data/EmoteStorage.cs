@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 
 namespace gomenasai_bot.Data
 {
-    class EmoteStorage
+    public class EmoteStorage
     {
-        private static Dictionary<string, int> emoteCount = new Dictionary<string, int>();
+        public static Dictionary<string, int> emoteCount = new Dictionary<string, int>();
 
         /// <summary>
         /// creates/loads file data
@@ -117,5 +117,18 @@ namespace gomenasai_bot.Data
             SaveData();
             Console.WriteLine("Added 1 count using:" + key);
         }
+
+        public static string[] GetAllKeys()
+        {
+            string[] keys = null;
+            int i = 0;
+            foreach (string key in emoteCount.Keys)
+            {
+                keys[i] = key;
+                i++;
+            }
+            return keys;
+        }
     }
+    
 }

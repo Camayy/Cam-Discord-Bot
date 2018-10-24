@@ -33,7 +33,8 @@ namespace gomenasai_bot.Events
                     if (Data.EmoteStorage.ContainsKey(emobe.ToString()))
                     {
                         Data.EmoteStorage.UpdateDictionary(emobe.ToString());
-                        break;
+                        Data.UserEmoteStorage.UpdateDictionary(msg, emobe.ToString());
+                        break;     
                     }
                 }
             }

@@ -19,7 +19,7 @@ namespace gomenasai_bot
         //SAVE REACTION COUNTS
         //USER COUNTS FOR EMOTES
         //MOST EMOTE USED           -------
-        //SAVE MEMES AND UPLOAD
+        //SAVE MEMES AND UPLOAD    https://developers.google.com/drive/api/v3/quickstart/dotnet  https://developers.google.com/drive/api/v3/manage-uploads
         //ADD KRIMS REPLACEMENT
         //READ BACK THROUGH MESSAGES - https://discordpy.readthedocs.io/en/latest/api.html#discord.Client.logs_from
         //other stuff

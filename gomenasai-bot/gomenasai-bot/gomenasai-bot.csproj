@@ -141,7 +141,9 @@
     <Compile Include="Commands\WaitWhatReaction.cs" />
     <Compile Include="Core\EventHandler.cs" />
     <Compile Include="Data\EmoteStorage.cs" />
+    <Compile Include="Data\UserEmoteStorage.cs" />
     <Compile Include="Events\EmoteHandler.cs" />
+    <Compile Include="Events\EmoteUserHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\ConsoleLogging.cs" />
   </ItemGroup>

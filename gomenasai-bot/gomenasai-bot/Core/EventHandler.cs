@@ -39,9 +39,10 @@ namespace gomenasai_bot.Core
 
             //need to add await in the method to run asynchronously
 
-            await Commands.WaitWhatReaction.WaitWhatReactionForPerson(msg);
+            //await Commands.WaitWhatReaction.WaitWhatReactionForPerson(msg);
             //await Events.EmoteHandler.GetEmoteFromMessage(msg);
             Events.EmoteHandler.GetEmoteFromMessage(msg);
+            //Events.EmoteUserHandler.GetEmoteFromMessage(msg); //remove this and class
 
             if (context.Message == null || context.Message.Content == "")
             {
