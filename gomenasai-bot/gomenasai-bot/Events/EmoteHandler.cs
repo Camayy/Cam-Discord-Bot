@@ -22,6 +22,11 @@ namespace gomenasai_bot.Events
             Task.Run(() => ManipulateUserMessage(msg));
         }
 
+        public static void NewUserJoined(SocketGuildUser user)
+        {
+            Task.Run(() => AddNewUser(user));
+        }
+
         private static async Task ManipulateUserMessage(SocketUserMessage msg)
         {
             var context = new SocketCommandContext(_client, msg);
@@ -40,6 +45,13 @@ namespace gomenasai_bot.Events
             }
             await context.Channel.SendMessageAsync("");
             //You'd be better off moving Emote stuff into another method and Task.Run it
+        }
+
+        private static async Task AddNewUser(SocketGuildUser user)
+        {
+            Data.UserEmoteStorage.AddNewUser(user);
+            await Task.CompletedTask;
+
         }
 
         //cant await the emote if message was not a emote

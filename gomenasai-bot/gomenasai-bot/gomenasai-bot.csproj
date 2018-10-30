@@ -133,6 +133,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\EmoteEmbeds.cs" />
     <Compile Include="Core\BotMain.cs" />
     <Compile Include="Commands\Chief_Command.cs" />
     <Compile Include="Commands\Embed_Command.cs" />

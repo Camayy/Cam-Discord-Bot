@@ -15,14 +15,11 @@ namespace gomenasai_bot
     internal class Bot
     {
         //TO DO:
-        //SAVE EMOTE COUNTS     ----- USE JSON
         //SAVE REACTION COUNTS
-        //USER COUNTS FOR EMOTES
-        //MOST EMOTE USED           -------
         //SAVE MEMES AND UPLOAD    https://developers.google.com/drive/api/v3/quickstart/dotnet  https://developers.google.com/drive/api/v3/manage-uploads
         //ADD KRIMS REPLACEMENT
+        //LEADERBOARD FOR EMOTE
         //READ BACK THROUGH MESSAGES - https://discordpy.readthedocs.io/en/latest/api.html#discord.Client.logs_from
-        //other stuff
         public static CommandService _commands;
         public static DiscordSocketClient _client;
         public static Core.EventHandler _handler;

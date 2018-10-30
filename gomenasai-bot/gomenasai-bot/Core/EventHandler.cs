@@ -24,10 +24,17 @@ namespace gomenasai_bot.Core
             _client = client;
             _commands = new CommandService();
             _client.MessageReceived += MessageSent;
+            _client.UserJoined += UserJoined;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());//move this to top?
 
             
             _client.Log += Utils.ConsoleLogging.ClientResponse;
+        }
+
+        private async Task UserJoined(SocketGuildUser arg)
+        {
+            Events.EmoteHandler.NewUserJoined(arg);
+            await Task.CompletedTask;
         }
 
         private async Task MessageSent(SocketMessage message)
