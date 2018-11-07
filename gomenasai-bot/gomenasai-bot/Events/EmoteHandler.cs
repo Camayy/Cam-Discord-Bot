@@ -9,6 +9,7 @@ using System.Configuration;
 using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
+using System.Net;
 
 namespace gomenasai_bot.Events
 {
@@ -16,6 +17,7 @@ namespace gomenasai_bot.Events
     {
 
         private static readonly DiscordSocketClient _client = Bot._client;
+        public static SocketUserMessage _msg;
 
         public static  void GetEmoteFromMessage(SocketUserMessage msg)
         {
@@ -29,20 +31,36 @@ namespace gomenasai_bot.Events
 
         private static async Task ManipulateUserMessage(SocketUserMessage msg)
         {
+            _msg = msg;
             var context = new SocketCommandContext(_client, msg);
             var guild = context.Guild;
-            foreach (IEmote emobe in guild.Emotes)
+
+            try
             {
-                if (msg.Content.Contains(emobe.Name))
+                foreach (IEmote emobe in guild.Emotes)
                 {
-                    if (Data.EmoteStorage.ContainsKey(emobe.ToString()))
+                    if (msg.Content.Contains(emobe.Name))
                     {
-                        Data.EmoteStorage.UpdateDictionary(emobe.ToString());
-                        Data.UserEmoteStorage.UpdateDictionary(msg, emobe.ToString());
-                        break;     
+                        if (Data.EmoteStorage.ContainsKey(emobe.ToString()))
+                        {
+                            Data.EmoteStorage.UpdateDictionary(emobe.ToString());
+                            Data.UserEmoteStorage.UpdateDictionary(msg, emobe.ToString());
+                            break;     
+                        }
                     }
                 }
+
+                if (msg.Attachments.Count > 0)
+                {
+                    Data.MemeDownloadUpload.HandleImages(msg); //RUN AS SEPERATE THREAD
+                }
             }
+            catch(Exception e)
+            {
+                Console.WriteLine("ERROR:" + e);
+            }
+            
+
             await context.Channel.SendMessageAsync("");
             //You'd be better off moving Emote stuff into another method and Task.Run it
         }
@@ -53,22 +71,6 @@ namespace gomenasai_bot.Events
             await Task.CompletedTask;
 
         }
-
-        //cant await the emote if message was not a emote
-        // await context.Message.AddReactionAsync(emote); //THIS IS NOT AWAITING PROPERLY CHECK CMD FOR ERROR
-
-        //handle if reaction already exists
-        ///https://docs.stillu.cc/api/Discord.WebSocket.SocketReaction.html?q=socketreaction
-        //handle none server emotes :smiling_imp:
-
-        /*if (Data.EmoteStorage.GetDictionaryCount() != guild.Emotes.Count)
-                    {
-                        //context.Message.Content ==
-                        //ADD THE NEW EMOTES -- do it with ID
-                        //Data.ReactionStorage.emoteCount.Add(new KeyValuePair<string, int>(EMOTENAME, 0));
-                        //ADD REACTION COUNT WITH_client.ReactionAdded += _client_ReactionAdded;
-                        Data.EmoteStorage.AddToDictionary(emobe.ToString(), 1);
-                    }*/
 
     }
 }

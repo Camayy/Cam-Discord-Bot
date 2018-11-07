@@ -14,11 +14,6 @@ namespace gomenasai_bot
 {
     internal class Bot
     {
-        //TO DO:
-        //SAVE REACTION COUNTS
-        //SAVE MEMES AND UPLOAD    https://developers.google.com/drive/api/v3/quickstart/dotnet  https://developers.google.com/drive/api/v3/manage-uploads
-        //ADD KRIMS REPLACEMENT
-        //LEADERBOARD FOR EMOTE
         //READ BACK THROUGH MESSAGES - https://discordpy.readthedocs.io/en/latest/api.html#discord.Client.logs_from
         public static CommandService _commands;
         public static DiscordSocketClient _client;
@@ -34,7 +29,6 @@ namespace gomenasai_bot
             _client = new DiscordSocketClient(new DiscordSocketConfig{LogLevel = LogSeverity.Debug});
 
             _commands = new CommandService(new CommandServiceConfig {CaseSensitiveCommands = true, DefaultRunMode = RunMode.Async, LogLevel = LogSeverity.Debug});
-            //NDk4OTMzNTI3MDkwMjk4OTIz.Dp08qA.Dp08qA.swNGS9YWYq_IdtcuyBQ5kryG3bM
             await _client.LoginAsync(TokenType.Bot, connection);
                                                      
             await _client.StartAsync();
