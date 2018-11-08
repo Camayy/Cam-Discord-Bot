@@ -16,6 +16,7 @@ namespace gomenasai_bot.Events
     {
 
         private static readonly DiscordSocketClient _client = Bot._client;
+        public static SocketUserMessage _message;
 
         public static  void GetEmoteFromMessage(SocketUserMessage msg)
         {
@@ -29,22 +30,55 @@ namespace gomenasai_bot.Events
 
         private static async Task ManipulateUserMessage(SocketUserMessage msg)
         {
+            _message = msg;
             var context = new SocketCommandContext(_client, msg);
             var guild = context.Guild;
+            
+            bool emote = UpdateGuildEmotes(msg, guild);
+
+            if (emote != true)
+            {
+                UpdateEmojis(msg);
+            }
+            
+            await context.Channel.SendMessageAsync("");
+        }
+
+        private static void UpdateEmojis(SocketUserMessage msg)
+        {
+            foreach (Data.WindowsEmoji emoj in Data.WindowsEmoji.Emojis.Values)
+            {
+                if (msg.Content == emoj._emoji)
+                {
+                    if (Data.EmoteStorage.ContainsKey(emoj._emoji))
+                    {
+                        UpdateDictionarys(emoj._emoji, msg);
+                    }
+                }
+            }
+        }
+
+        private static bool UpdateGuildEmotes(SocketUserMessage msg, SocketGuild guild)
+        {
             foreach (IEmote emobe in guild.Emotes)
             {
                 if (msg.Content.Contains(emobe.Name))
                 {
                     if (Data.EmoteStorage.ContainsKey(emobe.ToString()))
                     {
-                        Data.EmoteStorage.UpdateDictionary(emobe.ToString());
-                        Data.UserEmoteStorage.UpdateDictionary(msg, emobe.ToString());
-                        break;     
+                        UpdateDictionarys(emobe.ToString(), msg);
+                        return true;
                     }
                 }
             }
-            await context.Channel.SendMessageAsync("");
-            //You'd be better off moving Emote stuff into another method and Task.Run it
+
+            return false;
+        }
+
+        private static void UpdateDictionarys(string key, SocketUserMessage msg)
+        {
+            Data.EmoteStorage.UpdateDictionary(key);
+            Data.UserEmoteStorage.UpdateDictionary(msg, key);
         }
 
         private static async Task AddNewUser(SocketGuildUser user)

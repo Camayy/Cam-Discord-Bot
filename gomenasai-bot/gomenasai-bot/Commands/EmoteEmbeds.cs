@@ -13,13 +13,26 @@ namespace gomenasai_bot.Commands
     {
         [Command("emotelist"), Summary("Creates embed for emote list")]
         public async Task EmoteEmbed()
-        { 
-            var dictionary = Data.EmoteStorage.emoteCount.OrderByDescending(pair => pair.Value);
+        {
+            
+            /*var dictionary = usr.UserEmoteDictionary.OrderByDescending(pair => pair.Value);
+            foreach (KeyValuePair<string, int> key in dictionary)
+            {
+                embed.AddField("Emote: " + key.Key, "count: " + key.Value);
+            }*/
+
+
+
+            var dictionary = Data.EmoteStorage.GetDictionary().OrderByDescending(pair => pair.Value);
+            //dictionary;
 
             EmbedBuilder embed = new EmbedBuilder();
             foreach(KeyValuePair<string,int> key in dictionary)
             {
-                embed.AddField("Emote: "+ key.Key, key.Value);
+                if (key.Value > 0)
+                {
+                    embed.AddField("Emote: " + key.Key, key.Value);
+                }
             }
             await Context.Channel.SendMessageAsync("", false, embed.Build());
         }

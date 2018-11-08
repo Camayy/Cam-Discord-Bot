@@ -11,7 +11,7 @@ namespace gomenasai_bot.Data
 {
     public class EmoteStorage
     {
-        public static Dictionary<string, int> emoteCount = new Dictionary<string, int>();
+        private static Dictionary<string, int> emoteCount = new Dictionary<string, int>();
 
         /// <summary>
         /// creates/loads file data
@@ -87,6 +87,19 @@ namespace gomenasai_bot.Data
         public static bool AddToDictionary(string key, int value)
         {
             int count = GetDictionaryCount();
+
+            foreach(KeyValuePair<string, WindowsEmoji> emoj in WindowsEmoji.Emojis)
+            {
+                if (emoteCount.ContainsKey(emoj.Key))
+                {
+                    break;
+                }
+                else
+                {
+                    emoteCount.Add(emoj.Key, 0);
+                }
+            }
+
             emoteCount.Add(key, value);
             SaveData();
             if (GetDictionaryCount() > count)
@@ -128,6 +141,10 @@ namespace gomenasai_bot.Data
                 i++;
             }
             return keys;
+        }
+        public static Dictionary<string, int> GetDictionary()
+        {
+            return emoteCount;
         }
     }
     

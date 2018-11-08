@@ -37,19 +37,17 @@ namespace gomenasai_bot.Data
     public class UserEmoteStorage
     {
         private static Dictionary<string, int> _emoteUserCount = null;
-        private static Dictionary<string, int> _emotes = EmoteStorage.emoteCount;
+        private static Dictionary<string, int> _emotes = null;
         public static Users _serverUsers = null;
         private static UserEmote _user = null;
         private static readonly DiscordSocketClient _client = Bot._client;
-        private static SocketUserMessage _msg = null;
+        private static SocketUserMessage _msg = Events.EmoteHandler._message;
         private static string _jsonString = "EmoteUserStorage.json";
 
         static UserEmoteStorage()
         {
-            if (_serverUsers == null)
-            {
-                _serverUsers = DeserializeJson();
-            }
+            _emotes = EmoteStorage.GetDictionary();
+            GetOrCreateJson();
         }
         
         public static void AddNewUser(SocketGuildUser user)//DO THIS ON USER JOIN SERVER
@@ -77,13 +75,13 @@ namespace gomenasai_bot.Data
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        private static bool GetOrCreateJson(string file)
+        private static bool GetOrCreateJson()
         {
-            if (!File.Exists(file))
+            if (!File.Exists(_jsonString))
             {
                 AddInitialUsers();
-                return false;
             }
+            _serverUsers = DeserializeJson();
             return true;
         }
 
@@ -153,6 +151,7 @@ namespace gomenasai_bot.Data
 
         public static void UpdateDictionary(SocketUserMessage message, string emote)//needs fixing
         {
+            
             UserEmote user = new UserEmote();
             int i = 0;
 
@@ -178,8 +177,8 @@ namespace gomenasai_bot.Data
             try
             {
                 Users user = new Users();
-                PropertyInfo[] properties = typeof(Users).GetProperties();
-                int i = 0;
+                PropertyInfo[] properties = typeof(Users).GetProperties();//?
+
                 EmbedBuilder embed = new EmbedBuilder();
                 foreach (UserEmote usr in UserEmoteStorage._serverUsers)
                 {
@@ -189,28 +188,66 @@ namespace gomenasai_bot.Data
                         var dictionary = usr.UserEmoteDictionary.OrderByDescending(pair => pair.Value);
                         foreach (KeyValuePair<string, int> key in dictionary)
                         {
-                            embed.AddField("Emote: " + key.Key, "count: " + key.Value);
+                            if (key.Value > 0)
+                            {
+                                embed.AddField("Emote: " + key.Key, "count: " + key.Value);
+                            }
                         }
                         break;
                     }
-                    //MAKE IT FOR INDIVIDUAL USER ONLY
                     // embed.AddField("User: "+usr.UserId, "Emotes: "+usr.UserEmoteDictionary.Keys[i],"Count: "+usr.UserEmoteDictionary.Values);/
                 }
 
-                //for each user
-                //sort the emotes
-                //add to embed
-
-                //foreach user
-                    //get each users emotes
-                    //put them together
-                    //compare them
                 await Context.Channel.SendMessageAsync("", false, embed.Build());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine("error: " + e);
             }
+        }
+
+        [Command("emotescore"), Summary("Creates embed for emote highscores")]
+        public async Task EmoteLeaderboard([Remainder]string param)
+        {
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.Title = param + "leaderboard";
+            Dictionary<string, int> emoteDiction = null;
+            Dictionary<string, int> tempdict = new Dictionary<string, int>();
+            foreach (UserEmote usr in UserEmoteStorage._serverUsers)
+            {
+                emoteDiction = usr.UserEmoteDictionary;
+                foreach (string emote in emoteDiction.Keys)
+                {
+                    if (emote == param)
+                    {
+                        if (emoteDiction[emote] > 0)
+                        {
+                            tempdict.Add(usr.UserId, emoteDiction[emote]);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var dictionary = tempdict.OrderByDescending(pair => pair.Value);
+            foreach (KeyValuePair<string, int> key in dictionary)
+            {
+                embed.AddField("User: @" + key.Key, "count: " + key.Value);
+            }
+
+            await Context.Channel.SendMessageAsync("", false, embed.Build());
+            //for each user
+            //sort the emotes
+            //add to embed
+
+            //foreach user
+            //get each users emotes
+            //put them together
+            //compare them
+
+            //foreach user
+            //get waitwhat count
+            //sort
         }
     }
 }

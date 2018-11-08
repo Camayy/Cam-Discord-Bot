@@ -143,6 +143,7 @@
     <Compile Include="Core\EventHandler.cs" />
     <Compile Include="Data\EmoteStorage.cs" />
     <Compile Include="Data\UserEmoteStorage.cs" />
+    <Compile Include="Data\WindowsEmoji.cs" />
     <Compile Include="Events\EmoteHandler.cs" />
     <Compile Include="Events\EmoteUserHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

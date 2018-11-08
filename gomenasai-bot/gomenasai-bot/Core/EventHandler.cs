@@ -26,7 +26,6 @@ namespace gomenasai_bot.Core
             _client.MessageReceived += MessageSent;
             _client.UserJoined += UserJoined;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());//move this to top?
-
             
             _client.Log += Utils.ConsoleLogging.ClientResponse;
         }
@@ -43,7 +42,8 @@ namespace gomenasai_bot.Core
 
             var msg = message as SocketUserMessage;
             var context = new SocketCommandContext(_client, msg);
-
+            
+            
             //need to add await in the method to run asynchronously
 
             //await Commands.WaitWhatReaction.WaitWhatReactionForPerson(msg);

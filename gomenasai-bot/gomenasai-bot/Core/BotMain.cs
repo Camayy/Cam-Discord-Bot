@@ -34,12 +34,10 @@ namespace gomenasai_bot
             _client = new DiscordSocketClient(new DiscordSocketConfig{LogLevel = LogSeverity.Debug});
 
             _commands = new CommandService(new CommandServiceConfig {CaseSensitiveCommands = true, DefaultRunMode = RunMode.Async, LogLevel = LogSeverity.Debug});
-            //NDk4OTMzNTI3MDkwMjk4OTIz.Dp08qA.Dp08qA.swNGS9YWYq_IdtcuyBQ5kryG3bM
             await _client.LoginAsync(TokenType.Bot, connection);
                                                      
             await _client.StartAsync();
             await _client.SetGameAsync("with daddys cummies", "http://www.google.com", StreamType.NotStreaming);
-            //await _client.SetStatusAsync(UserStatus.DoNotDisturb);
             _handler = new Core.EventHandler();
             await _handler.InitializeAsync(_client);
             await Task.Delay(-1);
