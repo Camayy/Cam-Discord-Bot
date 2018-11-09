@@ -156,7 +156,6 @@
     <Compile Include="Commands\GetMemeDriveLink.cs" />
     <Compile Include="Core\BotMain.cs" />
     <Compile Include="Commands\Chief_Command.cs" />
-    <Compile Include="Commands\Faget_Command.cs" />
     <Compile Include="Commands\GetNewEmotes.cs" />
     <Compile Include="Commands\WaitWhatReaction.cs" />
     <Compile Include="Core\EventHandler.cs" />

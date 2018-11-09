@@ -25,40 +25,75 @@ namespace gomenasai_bot.Data
         public static string _file = null;
         public static DriveService _service = null;
         private string location = null;
+        private static bool _uploaded = false;
+        private static string _fileType = null;
+        private static SocketUserMessage _msg;
         //dirty but it works :)
-        public static void HandleImages(SocketUserMessage msg)
+        public static void HandleImages(SocketUserMessage msg, bool uploaded, string filetype)
         {
-            Console.WriteLine("Uploading image!");
-            DownloadImage(msg);
-            DriveConfiguration();
-            UploadImage();
-            Console.WriteLine("Images uploaded to meme folder");
-            DeleteImage();
-            Console.WriteLine("Deleted image from local");
+            _uploaded = uploaded;
+            _fileType = filetype;
+            _msg = msg;
+            try
+            {
+                Console.WriteLine("Downloading image");
+                DownloadImage(msg);
+                DriveConfiguration();
+                Console.WriteLine("Uploading image");
+                UploadImage();
+                Console.WriteLine("Images uploaded to meme folder");
+                DeleteImage();
+                Console.WriteLine("Deleted image from local");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("ERROR: " + e);
+                Console.WriteLine("USER: " + _msg.Author);
+                Console.WriteLine("IMAGE: "+ msg.Id);
+            }
         }
 
         public static void DownloadImage(SocketUserMessage msg)
         {
-            foreach (var img in msg.Attachments) //use msg to add other shit to img
+            if (_uploaded)
             {
-                var url = msg.Attachments.FirstOrDefault().Url;
-                
-                using (WebClient client = new WebClient())
+                foreach (var img in msg.Attachments) //use msg to add other shit to img
                 {
-                    _file = @"C:\Users\camay\Documents\gomenasai-bot\gomenasai-bot\images\" + img.Id + ".png";
-                    client.DownloadFile(new Uri(url), _file);
-
-                    if (msg.Content == "")
-                    {
-                        string imageName = @"C:\Users\camay\Documents\gomenasai-bot\gomenasai-bot\images\Author" + msg.Author + "Time" + msg.Timestamp.Day + msg.Timestamp.Month + msg.Timestamp.Year + ".png";
-                        RenameImage(imageName);
-                    }
-                    else
-                    {
-                        string imageName = @"C:\Users\camay\Documents\gomenasai-bot\gomenasai-bot\images\Author" + msg.Author + "Message" + msg.Content + "Time" + msg.Timestamp.Day + msg.Timestamp.Month + msg.Timestamp.Year + ".png";
-                        RenameImage(imageName);
-                    }
+                    DownloadFileType(img.Id.ToString());
                 }
+            }
+            else
+            {
+                DownloadFileType(msg.Id.ToString());
+            }
+        }
+
+        private static void DownloadFileType(string imgName)
+        {
+            var url = "";
+
+            using (WebClient client = new WebClient())
+            {
+                if (_uploaded == true)
+                {
+                    url = _msg.Attachments.FirstOrDefault().Url;
+                    _file = Path.Combine(Environment.CurrentDirectory, @"images\", imgName + ".png");
+                    _fileType = "png";
+                }
+                else
+                {
+                    url = _msg.Content;
+                    _file = Path.Combine(Environment.CurrentDirectory, @"images\", imgName + "." + _fileType);
+                }
+
+
+                client.DownloadFile(new Uri(url), _file);
+
+                //C:\Users\camay\Documents\gomenasai-bot\gomenasai-bot
+                string imageName = Path.Combine(Environment.CurrentDirectory, @"images\", _msg.Author + "Time" + _msg.Timestamp.Day + _msg.Timestamp.Month + _msg.Timestamp.Year + "." + _fileType);
+                RenameImage(imageName);
+
+                //make it so linked files can be uploaded with msg.content to attatch a word
             }
         }
 
@@ -71,12 +106,6 @@ namespace gomenasai_bot.Data
             }
             _file = imageName;
         }
-
-        //search for last 5 images by the persons name
-            //check each message to find images
-            //check if image exists
-                //if it doesnt exist
-                    //upload
 
         static string[] Scopes = { DriveService.Scope.Drive };
         static string ApplicationName = "memestorage";

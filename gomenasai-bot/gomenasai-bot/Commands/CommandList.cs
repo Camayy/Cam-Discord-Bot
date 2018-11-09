@@ -15,20 +15,18 @@ namespace gomenasai_bot.Commands
         {
             Dictionary<string, string> commands = PopulateCommands();
             EmbedBuilder embed = new EmbedBuilder();
-
+            embed.Color = Color.Red;
             foreach (KeyValuePair<string,string> cmd in commands)
             {
                 embed.AddField("Command: "+cmd.Key, "Desc: "+cmd.Value);
             }
-
             await Context.Channel.SendMessageAsync("", false, embed.Build());
-
         }
 
         public Dictionary<string, string> PopulateCommands()
         {
             Dictionary<string, string> commands = new Dictionary<string, string>();
-            commands.Add("!isthatit", "Gets a answer from C.H.I.E.F");
+            commands.Add("!isthatit", "Gets a response from C.H.I.E.F");
             commands.Add("!emotelist", "Gets a list of all the emotes w/count");
             commands.Add("!memes", "Gets the memedrive");
             commands.Add("!addemote", "Adds a new emote");

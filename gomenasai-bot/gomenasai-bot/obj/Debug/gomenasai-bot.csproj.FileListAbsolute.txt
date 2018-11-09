@@ -60,3 +60,4 @@ C:\Users\Camay\Documents\gomenasai-bot\gomenasai-bot\gomenasai-bot\obj\Debug\gom
 C:\Users\Camay\Documents\gomenasai-bot\gomenasai-bot\gomenasai-bot\obj\Debug\gomenasai-bot.csproj.CopyComplete
 C:\Users\Camay\Documents\gomenasai-bot\gomenasai-bot\gomenasai-bot\obj\Debug\gomenasai-bot.exe
 C:\Users\Camay\Documents\gomenasai-bot\gomenasai-bot\gomenasai-bot\obj\Debug\gomenasai-bot.pdb
+C:\Users\Camay\Documents\gomenasai-bot\gomenasai-bot\gomenasai-bot\obj\Debug\gomenasai-bot.csprojAssemblyReference.cache

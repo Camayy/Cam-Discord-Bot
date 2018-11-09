@@ -14,6 +14,9 @@ namespace gomenasai_bot
 {
     internal class Bot
     {
+        //!saveimages look back through recent messages -- maybe dont need anymore
+        //reactions
+        //make it so linked files can be uploaded with msg.content to attatch a word
         //READ BACK THROUGH MESSAGES - https://discordpy.readthedocs.io/en/latest/api.html#discord.Client.logs_from
         public static CommandService _commands;
         public static DiscordSocketClient _client;

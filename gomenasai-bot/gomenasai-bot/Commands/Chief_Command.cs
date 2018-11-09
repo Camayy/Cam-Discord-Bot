@@ -31,6 +31,5 @@ namespace gomenasai_bot.Commands
             }
             await Context.Channel.SendMessageAsync(chief);
         }
-
     }
 }

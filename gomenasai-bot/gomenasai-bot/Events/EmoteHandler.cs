@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Configuration;
 
 using Discord;
@@ -19,9 +20,13 @@ namespace gomenasai_bot.Events
         private static readonly DiscordSocketClient _client = Bot._client;
         public static SocketUserMessage _msg;
 
+        private static string[] _fileTypes = { "webm", "png", "jpeg", "jpg", "gif", "mp4"};
+
         public static  void GetEmoteFromMessage(SocketUserMessage msg)
         {
-            Task.Run(() => ManipulateUserMessage(msg));
+            Thread t = new Thread(() => ManipulateUserMessage(msg));
+            t.Start();
+            t.Join();
         }
 
         public static void NewUserJoined(SocketGuildUser user)
@@ -29,7 +34,8 @@ namespace gomenasai_bot.Events
             Task.Run(() => AddNewUser(user));
         }
 
-        private static async Task ManipulateUserMessage(SocketUserMessage msg)
+        //private static async Task ManipulateUserMessage(SocketUserMessage msg)
+        private static void ManipulateUserMessage(SocketUserMessage msg)
         {
             _msg = msg;
             var context = new SocketCommandContext(_client, msg);
@@ -37,12 +43,29 @@ namespace gomenasai_bot.Events
             
             bool emote = UpdateGuildEmotes(msg, guild);
 
-            if (emote != true)
+            if (!emote)
             {
                 UpdateEmojis(msg);
             }
             
-            await context.Channel.SendMessageAsync("");
+            //this shit needs moving somewhere better
+
+            foreach (string type in _fileTypes)
+            {
+                if (msg.Attachments.Count > 0)
+                {
+                    Data.MemeDownloadUpload.HandleImages(msg, true, "");
+                    break;
+                    
+                }
+                else if (msg.Content.Contains(type))
+                {
+                    Data.MemeDownloadUpload.HandleImages(msg, false, type);
+                }
+            }
+
+            // await context.Channel.SendMessageAsync("");
+            context.Channel.SendMessageAsync("");
         }
 
         private static void UpdateEmojis(SocketUserMessage msg)
@@ -75,11 +98,6 @@ namespace gomenasai_bot.Events
                         UpdateDictionarys(emobe.ToString(), msg);
                         return true;
                     }
-                }
-
-                if (msg.Attachments.Count > 0)
-                {
-                    Data.MemeDownloadUpload.HandleImages(msg); //RUN AS SEPERATE THREAD
                 }
             }
             catch(Exception e)
