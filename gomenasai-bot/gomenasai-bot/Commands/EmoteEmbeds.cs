@@ -14,14 +14,6 @@ namespace gomenasai_bot.Commands
         [Command("emotelist"), Summary("Creates embed for emote list")]
         public async Task EmoteEmbed()
         {
-            
-            /*var dictionary = usr.UserEmoteDictionary.OrderByDescending(pair => pair.Value);
-            foreach (KeyValuePair<string, int> key in dictionary)
-            {
-                embed.AddField("Emote: " + key.Key, "count: " + key.Value);
-            }*/
-
-
 
             var dictionary = Data.EmoteStorage.GetDictionary().OrderByDescending(pair => pair.Value);
             //dictionary;

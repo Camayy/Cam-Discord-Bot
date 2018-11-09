@@ -14,11 +14,6 @@ namespace gomenasai_bot
 {
     internal class Bot
     {
-        //TO DO:
-        //SAVE REACTION COUNTS
-        //SAVE MEMES AND UPLOAD    https://developers.google.com/drive/api/v3/quickstart/dotnet  https://developers.google.com/drive/api/v3/manage-uploads
-        //ADD KRIMS REPLACEMENT
-        //LEADERBOARD FOR EMOTE
         //READ BACK THROUGH MESSAGES - https://discordpy.readthedocs.io/en/latest/api.html#discord.Client.logs_from
         public static CommandService _commands;
         public static DiscordSocketClient _client;
