@@ -18,6 +18,7 @@ namespace gomenasai_bot
         //reactions
         //make it so linked files can be uploaded with msg.content to attatch a word
         //READ BACK THROUGH MESSAGES - https://discordpy.readthedocs.io/en/latest/api.html#discord.Client.logs_from
+        //search image google drive https://www.daimto.com/search-files-on-google-drive-with-c/
         public static CommandService _commands;
         public static DiscordSocketClient _client;
         public static Core.EventHandler _handler;

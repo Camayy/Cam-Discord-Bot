@@ -151,6 +151,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Artifact.cs" />
     <Compile Include="Commands\CommandList.cs" />
     <Compile Include="Commands\EmoteEmbeds.cs" />
     <Compile Include="Commands\GetMemeDriveLink.cs" />

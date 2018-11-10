@@ -32,6 +32,7 @@ namespace gomenasai_bot.Commands
             commands.Add("!addemote", "Adds a new emote");
             commands.Add("!useremote @user", "Gets the emotes for the user");
             commands.Add("!emotescore :emote:", "Gets leaderboard for emote");
+            commands.Add("!artifact cardname", "Retrieves the card and stats");
 
             return commands;
         }
