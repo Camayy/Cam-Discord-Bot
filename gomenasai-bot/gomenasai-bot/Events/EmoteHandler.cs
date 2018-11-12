@@ -19,14 +19,13 @@ namespace gomenasai_bot.Events
 
         private static readonly DiscordSocketClient _client = Bot._client;
         public static SocketUserMessage _msg;
-
-        private static string[] _fileTypes = { "webm", "png", "jpeg", "jpg", "gif", "mp4"};
-
+        
         public static  void GetEmoteFromMessage(SocketUserMessage msg)
         {
-            Thread t = new Thread(() => ManipulateUserMessage(msg));
+            /*Thread t = new Thread(() => ManipulateUserMessage(msg));
             t.Start();
-            t.Join();
+            t.oin();*/
+            Task.Run(() => ManipulateUserMessage(msg));
         }
 
         public static void NewUserJoined(SocketGuildUser user)
@@ -47,27 +46,12 @@ namespace gomenasai_bot.Events
             {
                 UpdateEmojis(msg);
             }
-            
-            //this shit needs moving somewhere better
-
-            foreach (string type in _fileTypes)
-            {
-                if (msg.Attachments.Count > 0)
-                {
-                    Data.MemeDownloadUpload.HandleImages(msg, true, "");
-                    break;
-                    
-                }
-                else if (msg.Content.Contains(type))
-                {
-                    Data.MemeDownloadUpload.HandleImages(msg, false, type);
-                }
-            }
 
             // await context.Channel.SendMessageAsync("");
             context.Channel.SendMessageAsync("");
         }
 
+        
         private static void UpdateEmojis(SocketUserMessage msg)
         {
             foreach (Data.WindowsEmoji emoj in Data.WindowsEmoji.Emojis.Values)

@@ -155,6 +155,7 @@
     <Compile Include="Commands\CommandList.cs" />
     <Compile Include="Commands\EmoteEmbeds.cs" />
     <Compile Include="Commands\GetMemeDriveLink.cs" />
+    <Compile Include="Commands\SaveMemeCommand.cs" />
     <Compile Include="Core\BotMain.cs" />
     <Compile Include="Commands\Chief_Command.cs" />
     <Compile Include="Commands\GetNewEmotes.cs" />

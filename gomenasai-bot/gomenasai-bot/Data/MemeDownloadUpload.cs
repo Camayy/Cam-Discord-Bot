@@ -27,9 +27,9 @@ namespace gomenasai_bot.Data
         private string location = null;
         private static bool _uploaded = false;
         private static string _fileType = null;
-        private static SocketUserMessage _msg;
+        private static IUserMessage _msg;
         //dirty but it works :)
-        public static void HandleImages(SocketUserMessage msg, bool uploaded, string filetype)
+        public static void HandleImages(IUserMessage msg, bool uploaded, string filetype)
         {
             _uploaded = uploaded;
             _fileType = filetype;
@@ -53,7 +53,7 @@ namespace gomenasai_bot.Data
             }
         }
 
-        public static void DownloadImage(SocketUserMessage msg)
+        public static void DownloadImage(IUserMessage msg)
         {
             if (_uploaded)
             {
