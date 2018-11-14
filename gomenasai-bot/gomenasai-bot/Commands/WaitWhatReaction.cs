@@ -15,7 +15,7 @@ namespace gomenasai_bot.Commands
 {
     public class WaitWhatReaction : ModuleBase<SocketCommandContext>
     {
-        private static readonly DiscordSocketClient _client = Bot._client;
+        private static readonly DiscordSocketClient _client = Bot.GetClient();
 
         public static async Task WaitWhatReactionForPerson(SocketUserMessage msg)
         {

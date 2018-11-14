@@ -15,12 +15,10 @@ namespace gomenasai_bot
     internal class Bot
     {
         //search image google drive https://www.daimto.com/search-files-on-google-drive-with-c/
-        //reactions
         //make it so linked files can be uploaded with msg.content to attatch a word
-        //remove user from emotestorage when they leave server
-        public static CommandService _commands;
-        public static DiscordSocketClient _client;
-        public static Core.EventHandler _handler;
+        private static CommandService _commands;
+        private static DiscordSocketClient _client;
+        private static Core.EventHandler _handler;
 
         static void Main(string[] args)
         => new Bot().MainTask().GetAwaiter().GetResult();
@@ -41,11 +39,14 @@ namespace gomenasai_bot
             await Task.Delay(-1);
         }
 
-        
+        public static CommandService GetCommands()
+        {
+            return _commands;
+        }
 
-        /* private Task _client_ReactionAdded(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
-         {
-             Console.WriteLine("_client_RactionAdded");
-         }*/
+        public static DiscordSocketClient GetClient()
+        {
+            return _client;
+        }
     }
 }

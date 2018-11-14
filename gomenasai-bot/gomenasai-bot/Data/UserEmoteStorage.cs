@@ -40,7 +40,7 @@ namespace gomenasai_bot.Data
         private static Dictionary<string, int> _emotes = null;
         public static Users _serverUsers = null;
         private static UserEmote _user = null;
-        private static readonly DiscordSocketClient _client = Bot._client;
+        private static readonly DiscordSocketClient _client = Bot.GetClient();
 
         private static SocketUserMessage _msg = Events.EmoteHandler._msg;
         private static string _jsonString = "EmoteUserStorage.json";
@@ -148,26 +148,39 @@ namespace gomenasai_bot.Data
             }
         }
 
+        public static bool ContainsKey(string key)
+        {
+            _user = new UserEmote();
+            _user.UserEmoteDictionary = GrabEmotes();
+            if (_user.UserEmoteDictionary.ContainsKey(key))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static void SaveData()
         {
             string json = JsonConvert.SerializeObject(_serverUsers, Formatting.Indented);
             File.WriteAllText(_jsonString, json);
         }
 
-        public static void UpdateDictionary(SocketUserMessage message, string emote)//needs fixing
+        public static void UpdateDictionary(string author, string emote)//needs fixing
         {
             
-            UserEmote user = new UserEmote();
             int i = 0;
 
             foreach (UserEmote usr in _serverUsers)//_serverusers ienumerable causing json not being able to read
             {
-                if (usr.UserId == message.Author.ToString())
+                if (usr.UserId == author)
                 {
                     i = usr.UserEmoteDictionary[emote];
                     usr.UserEmoteDictionary[emote] = i + 1;
                     SaveData();
-                    Console.WriteLine("Added emote " + emote + " to user: " + message.Author.ToString());
+                    Console.WriteLine("Added emote " + emote + " to user: " + author);
                     break;
                 }
             }

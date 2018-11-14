@@ -17,13 +17,15 @@ namespace gomenasai_bot.Commands
         public async Task SaveRecentMemes()
         {
             var messages = await Context.Channel.GetMessagesAsync(5).Flatten();
+            bool found = false;
 
             foreach (IUserMessage msg in messages)
             {
                 if (msg.Attachments.Count > 0)
                 {
                     Data.MemeDownloadUpload.HandleImages(msg, true, "");
-                    break;
+                    found = true;
+                    //break;
                 }
                 else
                 {
@@ -32,14 +34,21 @@ namespace gomenasai_bot.Commands
                         if (msg.Content.Contains(type))
                         {
                             Data.MemeDownloadUpload.HandleImages(msg, false, type);
+                            found = true;
                         }
                     }
                 }
 
             }
+            if (found)
+            {
+                await Context.Channel.SendMessageAsync("Saved image");
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync("Could not find image");
+            }
             
-
-            await Context.Channel.SendMessageAsync("Saved image");
 
         }
 }

@@ -15,8 +15,8 @@ namespace gomenasai_bot.Core
     internal class EventHandler
     {
 
-        private DiscordSocketClient _client = Bot._client;
-        private CommandService _commands = Bot._commands;
+        private DiscordSocketClient _client = Bot.GetClient();
+        private CommandService _commands = Bot.GetCommands();
 
         public async Task InitializeAsync(DiscordSocketClient client)
         {
@@ -25,9 +25,16 @@ namespace gomenasai_bot.Core
             _commands = new CommandService();
             _client.MessageReceived += MessageSent;
             _client.UserJoined += UserJoined;
+            _client.ReactionAdded += ReactionAdded;
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly());//move this to top?
             
             _client.Log += Utils.ConsoleLogging.ClientResponse;
+        }
+
+        private async Task ReactionAdded(Cacheable<IUserMessage, ulong> arg1, ISocketMessageChannel arg2, SocketReaction arg3)
+        {
+            Events.EmoteHandler.ReactionAdded(arg3);
+            await Task.CompletedTask;
         }
 
         private async Task UserJoined(SocketGuildUser arg)

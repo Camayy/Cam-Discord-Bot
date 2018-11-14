@@ -17,7 +17,7 @@ namespace gomenasai_bot.Events
     public static class EmoteHandler
     {
 
-        private static readonly DiscordSocketClient _client = Bot._client;
+        private static readonly DiscordSocketClient _client = Bot.GetClient();
         public static SocketUserMessage _msg;
         
         public static  void GetEmoteFromMessage(SocketUserMessage msg)
@@ -33,12 +33,37 @@ namespace gomenasai_bot.Events
             Task.Run(() => AddNewUser(user));
         }
 
+        public static void ReactionAdded(SocketReaction reac)
+        {
+            Task.Run(() => AddReaction(reac));
+        }
+        
+        /// ///////////////////////////////////
+
+        private static void AddReaction(SocketReaction reac)
+        {
+            //Data.UserEmoteStorage.UpdateDictionary(reac.User.ToString(), reac.Emote.ToString());
+           
+            foreach(Data.WindowsEmoji emoj in Data.WindowsEmoji.Emojis.Values)
+            {
+                if (emoj._emoji.Equals(reac.Emote.Name) || Data.UserEmoteStorage.ContainsKey(reac.Emote.ToString())) //|| Data.EmoteStorage.ContainsKey(emoj._emoji))
+                {
+                    UpdateDictionarys(reac.Emote.ToString(), reac.User.ToString());
+                    break;
+                }
+            }
+            
+        }
+
         //private static async Task ManipulateUserMessage(SocketUserMessage msg)
         private static void ManipulateUserMessage(SocketUserMessage msg)
         {
             _msg = msg;
             var context = new SocketCommandContext(_client, msg);
             var guild = context.Guild;
+
+            //if message contains emote from emotelist
+                //update dictionary
             
             bool emote = UpdateGuildEmotes(msg, guild);
 
@@ -48,7 +73,6 @@ namespace gomenasai_bot.Events
             }
 
             // await context.Channel.SendMessageAsync("");
-            context.Channel.SendMessageAsync("");
         }
 
         
@@ -60,7 +84,7 @@ namespace gomenasai_bot.Events
                 {
                     if (Data.EmoteStorage.ContainsKey(emoj._emoji))
                     {
-                        UpdateDictionarys(emoj._emoji, msg);
+                        UpdateDictionarys(emoj._emoji, msg.Author.ToString());
                     }
                 }
             }
@@ -79,7 +103,7 @@ namespace gomenasai_bot.Events
                 {
                     if (msg.Content.Contains(emobe.Name))
                     {
-                        UpdateDictionarys(emobe.ToString(), msg);
+                        UpdateDictionarys(emobe.ToString(), msg.Author.ToString());
                         return true;
                     }
                 }
@@ -92,10 +116,10 @@ namespace gomenasai_bot.Events
             return false;
         }
 
-        private static void UpdateDictionarys(string key, SocketUserMessage msg)
+        private static void UpdateDictionarys(string key, string author)
         {
             Data.EmoteStorage.UpdateDictionary(key);
-            Data.UserEmoteStorage.UpdateDictionary(msg, key);
+            Data.UserEmoteStorage.UpdateDictionary(author, key);
         }
 
         private static async Task AddNewUser(SocketGuildUser user)

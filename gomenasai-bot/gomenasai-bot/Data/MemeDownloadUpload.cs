@@ -24,7 +24,6 @@ namespace gomenasai_bot.Data
     {
         public static string _file = null;
         public static DriveService _service = null;
-        private string location = null;
         private static bool _uploaded = false;
         private static string _fileType = null;
         private static IUserMessage _msg;
