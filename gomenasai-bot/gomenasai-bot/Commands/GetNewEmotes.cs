@@ -25,10 +25,6 @@ namespace gomenasai_bot.Commands
                     Data.EmoteStorage.AddToDictionary(emote, 0);
                     await Context.Channel.SendMessageAsync("New emote added :" + emote);
                 }
-                //check if emote exists
-                //add the none existing emote
-                
-                //https://docs.stillu.cc/api/Discord.WebSocket.SocketGuild.html
             }
             await Context.Channel.SendMessageAsync("Emotes up to date");
         }

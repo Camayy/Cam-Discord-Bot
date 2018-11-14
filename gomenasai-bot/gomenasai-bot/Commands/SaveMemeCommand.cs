@@ -48,8 +48,6 @@ namespace gomenasai_bot.Commands
             {
                 await Context.Channel.SendMessageAsync("Could not find image");
             }
-            
-
         }
-}
+    }
 }

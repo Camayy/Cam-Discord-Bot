@@ -50,13 +50,7 @@ namespace gomenasai_bot.Core
             var msg = message as SocketUserMessage;
             var context = new SocketCommandContext(_client, msg);
             
-            
-            //need to add await in the method to run asynchronously
-
-            //await Commands.WaitWhatReaction.WaitWhatReactionForPerson(msg);
-            //await Events.EmoteHandler.GetEmoteFromMessage(msg);
             Events.EmoteHandler.GetEmoteFromMessage(msg);
-            //Events.EmoteUserHandler.GetEmoteFromMessage(msg); //remove this and class
 
             if (context.Message == null || context.Message.Content == "")
             {
