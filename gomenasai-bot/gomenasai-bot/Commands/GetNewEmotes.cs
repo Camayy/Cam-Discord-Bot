@@ -23,7 +23,6 @@ namespace gomenasai_bot.Commands
                 if(!Data.EmoteStorage.ContainsKey(emote) && !emote.Equals(null))
                 {
                     Data.EmoteStorage.AddToDictionary(emote, 0);
-                    await Context.Channel.SendMessageAsync("New emote added :" + emote);
                 }
             }
             await Context.Channel.SendMessageAsync("Emotes up to date");

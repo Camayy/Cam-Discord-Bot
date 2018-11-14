@@ -56,7 +56,7 @@ namespace gomenasai_bot.Data
             }
         }
 
-        public static void AddNewUser(SocketGuildUser user)//DO THIS ON USER JOIN SERVER
+        public static async Task AddNewUserAsync(SocketGuildUser user)//DO THIS ON USER JOIN SERVER
         {
             try
             {
@@ -65,8 +65,7 @@ namespace gomenasai_bot.Data
                 _user.UserEmoteDictionary = GrabEmotes();
 
                 _serverUsers.User.Add(_user);
-                SaveData();
-                Console.WriteLine("Added User: " + user.Username);
+                await SaveData();
             }
             catch (Exception e)
             {
@@ -162,10 +161,12 @@ namespace gomenasai_bot.Data
             }
         }
 
-        public static void SaveData()
+        public static async Task SaveData()
         {
             string json = JsonConvert.SerializeObject(_serverUsers, Formatting.Indented);
             File.WriteAllText(_jsonString, json);
+
+            await Task.CompletedTask;
         }
 
         public static void UpdateDictionary(string author, string emote)//needs fixing

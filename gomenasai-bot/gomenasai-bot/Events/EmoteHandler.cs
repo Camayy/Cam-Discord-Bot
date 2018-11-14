@@ -124,7 +124,7 @@ namespace gomenasai_bot.Events
 
         private static async Task AddNewUser(SocketGuildUser user)
         {
-            Data.UserEmoteStorage.AddNewUser(user);
+            Data.UserEmoteStorage.AddNewUserAsync(user);
             await Task.CompletedTask;
 
         }
