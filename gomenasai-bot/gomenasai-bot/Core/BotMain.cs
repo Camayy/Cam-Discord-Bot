@@ -33,7 +33,7 @@ namespace gomenasai_bot
             await _client.LoginAsync(TokenType.Bot, connection);
                                                      
             await _client.StartAsync();
-            await _client.SetGameAsync("with daddys cummies", "http://www.google.com", StreamType.NotStreaming);
+            await _client.SetGameAsync("staring at the wall", "http://www.google.com", StreamType.NotStreaming);
             _handler = new Core.EventHandler();
             await _handler.InitializeAsync(_client);
             await Task.Delay(-1);
